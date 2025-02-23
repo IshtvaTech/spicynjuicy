@@ -77,4 +77,11 @@ export const assets = {
   recipes,
   ourmission,
   stick,
+  EcoFriedly,
+  Ice,
+  Healthy,
+  Juicy,
+  Natural,
+  noSugar,
+  memories,
 };
