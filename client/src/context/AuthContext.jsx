@@ -9,7 +9,10 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await axios.get("http://localhost:4000/api/auth/me", { withCredentials: true });
+        const response = await axios.get(
+          "https://spicyjuicy.onrender.com/api/auth/me",
+          { withCredentials: true }
+        );
         setUser(response.data);
       } catch (error) {
         setUser(null);
@@ -19,5 +22,9 @@ export const AuthProvider = ({ children }) => {
     fetchUser();
   }, []);
 
-  return <AuthContext.Provider value={{ user, setUser }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user, setUser }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
