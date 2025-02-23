@@ -33,13 +33,6 @@ import reward from "./rewards.jpg";
 import recipes from "./recipes.jpg";
 import ourmission from "./ourmission (1).jpg";
 import stick from "./stick.png";
-import EcoFriedly from "./EcoFriedly.png";
-import Ice from "./Ice.png";
-import Healthy from "./Healthy.png";
-import Juicy from "./Juicy.png";
-import Natural from "./Natural.png";
-import noSugar from "./noSugar.png";
-import memories from "./memories.png";
 
 export const assets = {
   lock_icon,
@@ -77,11 +70,4 @@ export const assets = {
   recipes,
   ourmission,
   stick,
-  EcoFriedly,
-  Ice,
-  Healthy,
-  Juicy,
-  Natural,
-  noSugar,
-  memories,
 };

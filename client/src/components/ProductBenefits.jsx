@@ -3,12 +3,12 @@ import { assets } from "../assets/assets.js";
 
 const ProductBenefits = () => {
   const benefits = [
-    { img: assets.memories, text: "LIVE MEMORIES" },
-    { img: assets.noSugar, text: "NO SUGAR" },
-    { img: assets.Natural, text: "NATURALLY JUICY" },
-    { img: assets.Ice, text: "Mineral Water" },
-    { img: assets.EcoFriedly, text: "Eco Friendly" },
-    { img: assets.filler, text: "NO ARTIFICIALS" },
+    { img: assets.protine, text: "live Memories" },
+    { img: assets.suger, text: "No Sugar" },
+    { img: assets.keto, text: "Nothing Artificial" },
+    { img: assets.carb, text: "All Natural" },
+    { img: assets.allergy, text: "Vegan Friendly" },
+    { img: assets.filler, text: "Lab Certified" },
   ];
 
   return (
