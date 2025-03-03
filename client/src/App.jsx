@@ -1,7 +1,7 @@
+// App.js
 import React, { useEffect } from "react";
 import { Route, Routes, Navigate, useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { checkAuth } from "./store/auth-slice/index.js";
+import { useDispatch } from "react-redux";
 
 import AuthLayout from "./components/auth/layout.jsx";
 import AuthLogin from "./pages/auth/login";
@@ -16,7 +16,6 @@ import ShoppingListing from "./pages/shopping-view/listing.jsx";
 import ShoppingCheckout from "./pages/shopping-view/checkout.jsx";
 import ShoppingAccount from "./pages/shopping-view/account.jsx";
 import NotFound from "./pages/not-found/index.jsx";
-import CheckAuth from "./components/common/checkAuth.jsx";
 import UnauthPage from "./pages/unAuthPage/index.jsx";
 import SubscribePage from "./pages/shopping-view/subscribePage.jsx";
 import WheretobuyPage from "./pages/shopping-view/wheretobuyPage.jsx";
@@ -25,17 +24,10 @@ import StripeReturnPage from "./pages/shopping-view/stripeReturn.jsx";
 import Footer from "./components/footer.jsx";
 
 const App = () => {
-  const { user, isAuthenticated, isLoading } = useSelector(
-    (state) => state.auth
-  );
   const dispatch = useDispatch();
   const location = useLocation();
 
-  useEffect(() => {
-    dispatch(checkAuth());
-  }, [dispatch]);
-
-  if (isLoading) return <div>Loading...</div>;
+ 
 
   const hideFooterRoutes = [
     "/auth/login",
@@ -51,40 +43,19 @@ const App = () => {
     <div className="flex flex-col overflow-hidden bg-white min-h-screen">
       <Routes>
         <Route path="/" element={<Navigate to="/shop/home" replace />} />
-
-        <Route
-          path="/auth"
-          element={
-            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-              <AuthLayout />
-            </CheckAuth>
-          }
-        >
+        
+        <Route path="/auth" element={<AuthLayout />}>
           <Route path="login" element={<AuthLogin />} />
           <Route path="register" element={<AuthRegister />} />
         </Route>
-
-        <Route
-          path="/admin"
-          element={
-            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-              <AdminLayout />
-            </CheckAuth>
-          }
-        >
+        
+        <Route path="/admin" element={<AdminLayout />}>
           <Route path="dashboard" element={<AdminDashboard />} />
           <Route path="products" element={<AdminProduct />} />
           <Route path="orders" element={<AdminOrders />} />
         </Route>
 
-        <Route
-          path="/shop"
-          element={
-            <CheckAuth isAuthenticated={isAuthenticated} user={user}>
-              <ShoppingLayout />
-            </CheckAuth>
-          }
-        >
+        <Route path="/shop" element={<ShoppingLayout />}>
           <Route path="home" element={<ShoppingHome />} />
           <Route path="listing" element={<ShoppingListing />} />
           <Route path="checkout" element={<ShoppingCheckout />} />

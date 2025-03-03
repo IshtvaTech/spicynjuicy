@@ -3,7 +3,7 @@ import { loginFormControls } from "@/config";
 import { loginUser } from "@/store/auth-slice";
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const initialState = {
@@ -14,6 +14,7 @@ const initialState = {
 const AuthLogin = () => {
   const [formData, setFormData] = useState(initialState);
   const dispatch = useDispatch();
+  const navigate = useNavigate(); 
 
   function onSubmit(event) {
     event.preventDefault();
@@ -21,12 +22,19 @@ const AuthLogin = () => {
     dispatch(loginUser(formData)).then((data) => {
       if (data?.payload?.success) {
         toast.success(data?.payload?.message);
-        
+
+       
+        if (data.payload.user.role === "admin") {
+          navigate("/admin/dashboard"); 
+        } else {
+          navigate("/shop/home"); 
+        }
       } else {
         toast.error(data?.payload?.message);
       }
     });
   }
+
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
       <div className="text-center">
