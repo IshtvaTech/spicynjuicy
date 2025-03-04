@@ -1,4 +1,11 @@
-import { HousePlug, LogIn, LogOut, Menu, ShoppingCart, UserCog } from "lucide-react";
+import {
+  HousePlug,
+  LogIn,
+  LogOut,
+  Menu,
+  ShoppingCart,
+  UserCog,
+} from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
@@ -39,7 +46,7 @@ function HeaderRightContent() {
   const dispatch = useDispatch();
   const [openCartSheet, setOpenCartSheet] = useState(false);
   const { cartItems } = useSelector((state) => state.shopCart);
-  const { user } = useSelector((state) => state.auth); 
+  const { user } = useSelector((state) => state.auth);
 
   useEffect(() => {
     if (user) {
@@ -108,30 +115,43 @@ function HeaderRightContent() {
 
 const ShoppingHeader = () => {
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-yellow-500">
+    <header className="sticky top-0 z-40 w-full border-b bg-yellow-500 shadow-md dark:bg-yellow-700 transition-colors">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
-        <Link
-          to="/shop/home"
-          className="transform -translate-x-1/2 text-2xl md:text-3xl font-extrabold text-red-600 px-4 py-1"
-        >
-          <span className="font-bold">JuicynCrazy</span>
-        </Link>
+        {/* Left: Mobile Menu Button (Visible on Small Screens) */}
         <Sheet>
           <SheetTrigger asChild>
-            <Button variant="outline" size="icon" className="lg:hidden">
+            <Button
+              variant="outline"
+              size="icon"
+              className="lg:hidden focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-300"
+              aria-label="Open menu"
+            >
               <Menu className="h-6 w-6" />
-              <span className="sr-only">Toggle header menu</span>
             </Button>
           </SheetTrigger>
-          <SheetContent side="left" className="w-full max-w-xs bg-transparent">
+          <SheetContent
+            side="left"
+            className="w-full max-w-xs bg-white shadow-lg transition-transform duration-300 ease-in-out"
+          >
             <MenuItems />
             <HeaderRightContent />
           </SheetContent>
         </Sheet>
-        <div className="hidden lg:block">
-          <MenuItems />
+
+        {/* Center: Logo / Branding */}
+        <div className="flex-1 flex justify-center">
+          <Link
+            to="/shop/home"
+            className="text-2xl md:text-3xl font-extrabold text-red-600 hover:text-red-700 transition duration-300"
+            aria-label="Go to homepage"
+          >
+            <span className="font-bold">JuicynCrazy</span>
+          </Link>
         </div>
-        <div className="hidden lg:block">
+
+        {/* Right: Desktop Navigation (Hidden on Mobile) */}
+        <div className="hidden lg:flex lg:items-center lg:space-x-6">
+          <MenuItems />
           <HeaderRightContent />
         </div>
       </div>
