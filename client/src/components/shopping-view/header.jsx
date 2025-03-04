@@ -142,10 +142,21 @@ const ShoppingHeader = () => {
         <div className="flex-1 flex justify-center">
           <Link
             to="/shop/home"
-            className="text-2xl md:text-3xl font-extrabold text-red-600 hover:text-red-700 transition duration-300"
+            className="text-2xl md:text-3xl font-extrabold hover:text-red-700 transition duration-300"
+            style={{
+              fontFamily: "Baguet Script",
+              fontWeight: "bold",
+              fontStyle: "italic",
+              color: "white",
+            }}
             aria-label="Go to homepage"
           >
-            <span className="font-bold">JuicynCrazy</span>
+            <img
+              src="/vite.png"
+              alt="Vite Logo"
+              className="h-32 w-45 inline-block mr-2"
+            />
+            <span className="font-bold"></span>
           </Link>
         </div>
 
