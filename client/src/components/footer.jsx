@@ -19,21 +19,21 @@ const Footer = () => {
 
         <div>
           <h3 className="text-[#d02c2f] font-bold text-lg mb-3">SHOP</h3>
-          <ul className="space-y-2">
+          {/*  <ul className="space-y-2">
             <li>Beef</li>
             <li>Turkey</li>
             <li>Venison</li>
             <li>Chomplings</li>
             <li>Shop All</li>
-          </ul>
+          </ul> */}
         </div>
 
         <div>
           <h3 className="text-[#d02c2f] font-bold text-lg mb-3">EARN</h3>
           <ul className="space-y-2">
-            <li>Rewards</li>
+            {/* <li>Rewards</li>
             <li>Subscribe & Save</li>
-            <li>Affiliate</li>
+            <li>Affiliate</li> */}
           </ul>
         </div>
 
@@ -42,10 +42,10 @@ const Footer = () => {
           <ul className="space-y-2">
             <li>Our Story</li>
             <li>Careers</li>
-            <li>Student Discount</li>
+            {/*            <li>Student Discount</li>
             <li>Blog</li>
             <li>Where To Buy</li>
-            <li>Our Mission</li>
+            <li>Our Mission</li> */}
           </ul>
         </div>
 
