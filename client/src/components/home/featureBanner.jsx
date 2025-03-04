@@ -4,15 +4,14 @@ const FeatureBanner = () => {
   return (
     <div className="relative flex flex-col md:flex-row items-center justify-center bg-green-600 p-6 md:p-12 h-[800px] ">
       <div className="md:w-1/2 flex justify-center items-center rounded-lg p-4">
-        <img
+        {/*         <img
           src="https://chomps.com/cdn/shop/files/bts-fuel-for-you-looped.gif?v=1724095464"
           alt="A young girl eating a Turkey Chomps"
           className="w-full h-auto max-w-md md:max-w-lg lg:max-w-xl rounded-md"
-        />
+        /> */}
       </div>
 
       <div className="md:w-1/2 text-black text-center md:text-left p-6 relative bg-green-600 rounded-lg mt-30">
-        
         <div className="absolute -top-40  transform -translate-x-1/2 w-50 h-50">
           <svg
             xmlns="http://www.w3.org/2000/svg"
