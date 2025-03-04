@@ -5,10 +5,12 @@ const cors = require('cors');
 const connectDB = require('./config/db'); 
 const authRouter = require('./routes/auth/authRoutes');
 const adminProductsRouter=require('./routes/admin/productRoutes')
+const adminOrderRouter=require('./routes/admin/orderRoutes')
 const shopProductsRouter=require('./routes/shop/productRoutes')
 const shopCartRouter=require('./routes/shop/cartRoutes')
 const shopAddressRouter=require('./routes/shop/addressRoutes')
 const shopOrderRouter=require('./routes/shop/orderRoutes')
+const shopReviewRouter = require('./routes/shop/reviewRoutes')
 
 
 const app = express();
@@ -42,10 +44,12 @@ app.use(express.json());
 
 app.use('/api/auth', authRouter);
 app.use('/api/admin/products',adminProductsRouter);
+app.use('/api/admin/orders',adminOrderRouter);
 app.use('/api/shop/products',shopProductsRouter);
 app.use('/api/shop/cart',shopCartRouter);
 app.use('/api/shop/address',shopAddressRouter);
 app.use('/api/shop/order',shopOrderRouter)
+app.use('/api/shop/review',shopReviewRouter)
 
 
 
