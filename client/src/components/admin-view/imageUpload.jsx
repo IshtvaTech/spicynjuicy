@@ -6,7 +6,13 @@ import { FileIcon, UploadCloudIcon, XIcon } from "lucide-react";
 import { Button } from "../ui/button";
 import { Skeleton } from "../ui/skeleton";
 
-const ProductImageUpload = ({ imageFile, setImageFile, uploadImageUrl, setUploadImageUrl,isEditMode }) => {
+const ProductImageUpload = ({
+  imageFile,
+  setImageFile,
+  uploadImageUrl,
+  setUploadImageUrl,
+  isEditMode,
+}) => {
   const inputRef = useRef(null);
   const [imageLoadingState, setImageLoadingState] = useState(false);
 
@@ -41,7 +47,7 @@ const ProductImageUpload = ({ imageFile, setImageFile, uploadImageUrl, setUpload
 
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/admin/products/upload-image",
+        "http://localhost:5100/api/admin/products/upload-image",
         data
       );
       console.log(response, "response");
@@ -76,12 +82,14 @@ const ProductImageUpload = ({ imageFile, setImageFile, uploadImageUrl, setUpload
         {!imageFile ? (
           <Label
             htmlFor="image-upload"
-            className={`${isEditMode ? "cursor-not-allowed" : ""}flex flex-col items-center justify-center h-32 border border-dashed border-gray-300 rounded-lg cursor-pointer p-4 text-center`}
-
-
+            className={`${
+              isEditMode ? "cursor-not-allowed" : ""
+            }flex flex-col items-center justify-center h-32 border border-dashed border-gray-300 rounded-lg cursor-pointer p-4 text-center`}
           >
             <UploadCloudIcon className="w-10 h-10 text-gray-500 mb-2" />
-            <span className="text-gray-600">Drag & drop or click to upload image</span>
+            <span className="text-gray-600">
+              Drag & drop or click to upload image
+            </span>
           </Label>
         ) : imageLoadingState ? (
           <Skeleton className="h-10 bg-gray-100" />
@@ -102,7 +110,9 @@ const ProductImageUpload = ({ imageFile, setImageFile, uploadImageUrl, setUpload
             </Button>
           </div>
         )}
-        {imageLoadingState && <p className="text-sm text-gray-500 mt-2">Uploading...</p>}
+        {imageLoadingState && (
+          <p className="text-sm text-gray-500 mt-2">Uploading...</p>
+        )}
       </div>
     </div>
   );
