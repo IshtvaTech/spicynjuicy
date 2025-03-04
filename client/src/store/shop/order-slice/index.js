@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 const initialState = {
-  checkoutURL: null, 
+  checkoutURL: null,
   isLoading: false,
   orderId: null,
   orderList: [],
@@ -14,10 +14,10 @@ export const createNewOrder = createAsyncThunk(
   async (orderData, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/shop/order/create",
+        "http://localhost:5100/api/shop/order/create",
         orderData
       );
-      return response.data; 
+      return response.data;
     } catch (error) {
       return rejectWithValue(error.response?.data || "Failed to create order");
     }
@@ -26,11 +26,11 @@ export const createNewOrder = createAsyncThunk(
 
 export const capturePayment = createAsyncThunk(
   "/order/capturePayment",
-  async ({ paymentId,  orderId }, { rejectWithValue }) => {
+  async ({ paymentId, orderId }, { rejectWithValue }) => {
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/shop/order/capture",
-        { paymentId,  orderId }
+        "http://localhost:5100/api/shop/order/capture",
+        { paymentId, orderId }
       );
       return response.data;
     } catch (error) {
@@ -44,7 +44,7 @@ export const getAllOrdersByUserId = createAsyncThunk(
   async (userId, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/shop/order/list/${userId}`
+        `http://localhost:5100/api/shop/order/list/${userId}`
       );
       return response.data;
     } catch (error) {
@@ -58,11 +58,13 @@ export const getOrderDetails = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     try {
       const response = await axios.get(
-        `http://localhost:5000/api/shop/order/details/${id}`
+        `http://localhost:5100/api/shop/order/details/${id}`
       );
       return response.data;
     } catch (error) {
-      return rejectWithValue(error.response?.data || "Failed to fetch order details");
+      return rejectWithValue(
+        error.response?.data || "Failed to fetch order details"
+      );
     }
   }
 );
@@ -87,7 +89,7 @@ const shoppingOrderSlice = createSlice({
 
         if (state.checkoutURL) {
           sessionStorage.setItem("checkoutURL", state.checkoutURL);
-          window.location.href = state.checkoutURL; 
+          window.location.href = state.checkoutURL;
         }
       })
       .addCase(createNewOrder.rejected, (state, action) => {
