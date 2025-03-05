@@ -32,7 +32,11 @@ export const createNewOrder = createAsyncThunk(
       console.log("Order Created:", response.data);
       return response.data;
     } catch (error) {
-      console.error("Order Creation Error:", error.response?.data);
+      // Log the entire error response for debugging
+      console.error(
+        "Order Creation Error:",
+        error.response?.data || error.message
+      );
       return rejectWithValue(error.response?.data || "Failed to create order");
     }
   }
