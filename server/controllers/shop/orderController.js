@@ -74,7 +74,7 @@ const createOrder = async (req, res) => {
         cancel_url: `${FRONTEND_URL}/shop/stripe-cancel`,
       });
     } catch (error) {
-      console.error("Stripe Error:", error);
+      console.error("Stripe key:", process.env.VITE_STRIPE_SECRET_KEY );
       console.error("Stripe Error:", error.message, error);
 
       return res
