@@ -69,6 +69,8 @@ const ShoppingCheckout = () => {
       orderUpdateDate: new Date(),
     };
 
+    console.log("Order Data:", orderData); //log order data
+
     dispatch(createNewOrder(orderData)).then((data) => {
       if (data?.payload?.success) {
         console.log("Order Placed Successfully");
