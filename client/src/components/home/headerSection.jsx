@@ -20,7 +20,7 @@ const HeaderSection = () => {
     <div
       className="relative text-white p-10 flex flex-col md:flex-row items-center justify-between overflow-hidden"
       style={{
-        backgroundColor: "#FBEC5D", 
+        backgroundColor: "#FBEC5D",
         minHeight: "100vh",
       }}
     >
@@ -34,7 +34,8 @@ const HeaderSection = () => {
           COOL OFF WITH ICE POPS!
         </h1>
         <p className="text-lg md:text-2xl mt-4 text-gray-800">
-          Refresh your taste buds with our new fruity ice pops.
+          Refresh your taste buds with our new fruity ice pops. Feast 'it
+          ..Frost 'it .. Enjoy 'it !
         </p>
         <motion.button
           whileHover={{ scale: 1.1 }}
