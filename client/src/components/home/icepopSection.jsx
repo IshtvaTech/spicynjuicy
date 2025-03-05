@@ -1,5 +1,4 @@
-import React from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
 import wrapperImage from "../../assets/candy2.jpg";
 import candyImage from "../../assets/candy.avif";
 import mangocandy from "../../assets/mangocandy.png";
@@ -37,43 +36,37 @@ const IcePopSection = () => {
         </button>
       </div>
 
-      {/* Candy Animation Section */}
+      {/* Candy Image Swap Section */}
       <div className="flex flex-wrap gap-6 justify-center items-center mt-10 md:mt-20">
         {candyData.map((candyItem) => (
-          <motion.div
+          <CandyItem
             key={candyItem.id}
-            className="relative w-48 md:w-64 h-64 md:h-80 flex items-center justify-center cursor-pointer"
-            whileHover={{ scale: 1.05 }}
-            initial="hidden"
-            animate="visible"
-            variants={{
-              hidden: { opacity: 0, y: 30, scale: 0.9 },
-              visible: { opacity: 1, y: 0, scale: 1 },
-            }}
-            transition={{ duration: 0.7, ease: "easeOut" }}
-          >
-            {/* Candy Image (Animated) */}
-            <motion.img
-              src={candyItem.candy}
-              alt="Candy"
-              className="absolute w-20 md:w-32 object-contain"
-              style={{ bottom: 0, zIndex: 0 }}
-              variants={{
-                hidden: { y: 40, scale: 0.5, opacity: 0 },
-                visible: { y: 0, scale: 1, opacity: 1 },
-              }}
-              transition={{ duration: 0.7, ease: "easeOut" }}
-            />
-
-            {/* Wrapper Image */}
-            <img
-              src={candyItem.wrapper}
-              alt="Wrapper"
-              className="w-full h-full object-contain relative z-10"
-            />
-          </motion.div>
+            wrapper={candyItem.wrapper}
+            candy={candyItem.candy}
+          />
         ))}
       </div>
+    </div>
+  );
+};
+
+const CandyItem = ({ wrapper, candy }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
+  return (
+    <div
+      className="relative w-48 md:w-64 h-64 md:h-80 flex items-center justify-center cursor-pointer"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onTouchStart={() => setIsHovered(true)}
+      onTouchEnd={() => setIsHovered(false)}
+    >
+      {/* Swapping Images on Hover/Tap */}
+      <img
+        src={isHovered ? candy : wrapper}
+        alt="Candy"
+        className="w-full h-full object-contain"
+      />
     </div>
   );
 };
