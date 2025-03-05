@@ -4,7 +4,7 @@ const Order = require("../../models/Order");
 const Cart = require("../../models/Cart");
 const Product = require("../../models/Product");
 
-const FRONTEND_URL = import.meta.env.VITE_API_URL || "http://localhost:5173";
+const FRONTEND_URL = process.env.VITE_API_URL || "http://localhost:5173";
 const CURRENCY = "INR";
 
 const createOrder = async (req, res) => {

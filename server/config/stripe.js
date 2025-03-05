@@ -1,4 +1,5 @@
-require("dotenv").config();
+require("dotenv").config(); // Only this line
+
 const Stripe = require("stripe");
 
 // Validate that the environment variable exists
