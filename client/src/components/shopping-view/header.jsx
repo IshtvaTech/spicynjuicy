@@ -147,7 +147,6 @@ const ShoppingHeader = () => {
               fontFamily: "Baguet Script",
               fontWeight: "bold",
               fontStyle: "italic",
-              color: "white",
             }}
             aria-label="Go to homepage"
           >
