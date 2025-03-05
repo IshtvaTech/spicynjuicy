@@ -9,11 +9,13 @@ import { createNewOrder } from "@/store/shop/order-slice";
 const ShoppingCheckout = () => {
   const { cartItems } = useSelector((state) => state.shopCart);
   const { user } = useSelector((state) => state.auth);
-  const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
-  const [isPaymentStart, setIsPaymentStart] = useState(false);
   const { checkoutURL } = useSelector((state) => state.shopOrder);
   const dispatch = useDispatch();
 
+  const [currentSelectedAddress, setCurrentSelectedAddress] = useState(null);
+  const [isPaymentStart, setIsPaymentStart] = useState(false);
+
+  // Calculate the total cart amount
   const totalCartAmount =
     cartItems?.items?.length > 0
       ? cartItems.items.reduce(
@@ -27,6 +29,14 @@ const ShoppingCheckout = () => {
         )
       : 0;
 
+  // Handle redirection to Stripe's checkout page once URL is set
+  useEffect(() => {
+    if (checkoutURL) {
+      window.location.href = checkoutURL;
+    }
+  }, [checkoutURL]);
+
+  // Handle order creation and payment initiation
   function handleInitiateStripePayment() {
     if (!currentSelectedAddress) {
       alert("Please select an address before placing an order!");
@@ -35,7 +45,7 @@ const ShoppingCheckout = () => {
 
     const orderData = {
       userId: user?.id,
-      cartId: cartItems?._id,
+      cartId: cartItems?._id, // Use the correct cart ID
       cartItems: cartItems.items.map((singleCartItem) => ({
         productId: singleCartItem?.productId,
         title: singleCartItem?.title,
@@ -57,22 +67,17 @@ const ShoppingCheckout = () => {
       totalAmount: totalCartAmount,
       orderDate: new Date(),
       orderUpdateDate: new Date(),
-      cartId: "",
     };
 
     dispatch(createNewOrder(orderData)).then((data) => {
       if (data?.payload?.success) {
         console.log("Order Placed Successfully");
-        setIsPaymentStart(true);
+        setIsPaymentStart(true); // Start the payment process
       } else {
         console.log("Order Placing Failed");
-        setIsPaymentStart(false);
+        setIsPaymentStart(false); // Ensure payment doesn't start on failure
       }
     });
-  }
-
-  if (checkoutURL) {
-    window.location.href = checkoutURL;
   }
 
   return (
@@ -103,8 +108,9 @@ const ShoppingCheckout = () => {
             <Button
               className="w-full bg-yellow-700 hover:bg-yellow-600 cursor-pointer"
               onClick={handleInitiateStripePayment}
+              disabled={isPaymentStart} // Disable the button during payment process
             >
-              Place Your Order
+              {isPaymentStart ? "Processing Payment..." : "Place Your Order"}
             </Button>
           </div>
         </div>
