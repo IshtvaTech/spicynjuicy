@@ -3,7 +3,7 @@ require("dotenv").config(); // Only this line
 const Stripe = require("stripe");
 
 // Validate that the environment variable exists
-const stripeSecretKey = process.env.VITE_STRIPE_SECRET_KEY;
+const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
 if (!stripeSecretKey) {
   console.error("❌ STRIPE_SECRET_KEY is missing in the .env file");
   process.exit(1); // Stop the server if the key is missing
