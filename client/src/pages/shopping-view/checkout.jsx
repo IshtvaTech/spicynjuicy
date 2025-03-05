@@ -61,11 +61,11 @@ const ShoppingCheckout = () => {
     };
 
     dispatch(createNewOrder(orderData)).then((data) => {
-      console.log(data, "mit");
-
       if (data?.payload?.success) {
+        console.log("Order Placed Successfully");
         setIsPaymentStart(true);
       } else {
+        console.log("Order Placing Failed");
         setIsPaymentStart(false);
       }
     });
