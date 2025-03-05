@@ -27,11 +27,8 @@ import { fetchCartItems } from "@/store/shop/cart-slice";
 
 function MenuItems() {
   return (
-    <div className="p-3 bg-gradient-to-r from-red-500 to-yellow-500 rounded-md shadow-md">
-      <h2 className="text-2xl font-extrabold text-blue-600 uppercase tracking-wide mb-3 drop-shadow-[1px_1px_4px_white]">
-        Revive ..Rebuild ..Rejoice your memories !
-      </h2>
-      <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row text-black bg-yellow-400 p-2 rounded-lg">
+    <div className="rounded-md shadow-md">
+      <nav className="flex flex-col mb-2 lg:mb-0 lg:items-center gap-6 lg:flex-row text-black bg-yellow-400 p-2 rounded-lg">
         {shoppingViewHeaderMenuItems.map((menuItem) => (
           <Link
             className="text-lg font-semibold text-gray-900 transition-colors duration-300 hover:text-white hover:bg-red-500 px-4 py-2 rounded-md"
