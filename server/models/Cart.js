@@ -17,14 +17,18 @@ const CartSchema = new mongoose.Schema(
         quantity: {
           type: Number,
           required: true,
-          min: 1,
+          min: [1, "Quantity must be at least 1"],
         },
       },
     ],
   },
   {
     timestamps: true,
+    versionKey: false, // ✅ Removes `__v` field from documents
   }
 );
+
+// ✅ Prevent duplicate product entries in the cart
+CartSchema.index({ userId: 1, "items.productId": 1 }, { unique: true });
 
 module.exports = mongoose.model("Cart", CartSchema);
