@@ -18,24 +18,25 @@ const HeaderSection = () => {
 
   return (
     <div
-      className="relative text-white p-10 flex flex-col md:flex-row items-center justify-between overflow-hidden"
+      className="relative text-white px-6 py-10 flex flex-col md:flex-row items-center justify-between overflow-hidden"
       style={{
         backgroundColor: "#FBEC5D",
         minHeight: "100vh",
       }}
     >
+      {/* Text Section */}
       <motion.div
-        className="w-full md:w-1/2 text-center md:text-left p-6"
+        className="w-full md:w-1/2 text-center md:text-left px-6"
         initial={{ opacity: 0, x: -100 }}
         animate={{ opacity: 1, x: 0 }}
         transition={{ duration: 1, ease: "easeOut" }}
       >
-        <h1 className="text-5xl md:text-7xl font-extrabold drop-shadow-lg text-red-500">
+        <h1 className="text-4xl md:text-6xl font-extrabold drop-shadow-lg text-red-500 leading-tight">
           COOL OFF WITH ICE POPS!
         </h1>
-        <p className="text-lg md:text-2xl mt-4 text-gray-800">
-          Refresh your taste buds with our new fruity ice pops. Feast 'it
-          ..Frost 'it .. Enjoy 'it !
+        <p className="text-lg md:text-xl mt-4 text-gray-800 leading-relaxed">
+          Refresh your taste buds with our new fruity ice pops.
+          <br /> Frost 'it .. Feast 'it .. Enjoy 'it!
         </p>
         <motion.button
           whileHover={{ scale: 1.1 }}
@@ -46,14 +47,18 @@ const HeaderSection = () => {
         </motion.button>
       </motion.div>
 
+      {/* Image Section */}
       <div className="relative w-full md:w-1/2 flex justify-center items-center">
+        {/* Left Button */}
         <button
-          className="absolute left-0 p-2 cursor-pointer bg-opacity-50 rounded-full text-red-600 text-xl hover:bg-opacity-75 transition"
+          className="absolute left-0 md:-left-8 top-1/2 transform -translate-y-1/2 p-3 rounded-full bg-white shadow-md text-red-600 text-xl hover:bg-gray-100 transition"
           onClick={prevImage}
+          aria-label="Previous image"
         >
           &#10094;
         </button>
 
+        {/* Image Animation */}
         <motion.div
           key={currentIndex}
           animate={{ y: [0, -15, 0] }}
@@ -64,14 +69,17 @@ const HeaderSection = () => {
             src={images[currentIndex]}
             alt="Ice Pop"
             className="w-full h-auto rounded-lg drop-shadow-2xl"
+            loading="lazy"
             animate={{ opacity: [0, 1], x: [-50, 0] }}
             transition={{ duration: 0.5 }}
           />
         </motion.div>
 
+        {/* Right Button */}
         <button
-          className="absolute right-0 p-2 cursor-pointer bg-opacity-50 rounded-full text-red-600 text-xl hover:bg-opacity-75 transition"
+          className="absolute right-0 md:-right-8 top-1/2 transform -translate-y-1/2 p-3 rounded-full bg-white shadow-md text-red-600 text-xl hover:bg-gray-100 transition"
           onClick={nextImage}
+          aria-label="Next image"
         >
           &#10095;
         </button>

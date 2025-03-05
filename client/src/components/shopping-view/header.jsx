@@ -27,17 +27,22 @@ import { fetchCartItems } from "@/store/shop/cart-slice";
 
 function MenuItems() {
   return (
-    <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row text-white">
-      {shoppingViewHeaderMenuItems.map((menuItem) => (
-        <Link
-          className="text-lg text-white transition-colors duration-300 hover:text-red-600"
-          key={menuItem.id}
-          to={menuItem.path}
-        >
-          {menuItem.label}
-        </Link>
-      ))}
-    </nav>
+    <div className="p-3 bg-gradient-to-r from-red-500 to-yellow-500 rounded-md shadow-md">
+      <h2 className="text-2xl font-extrabold text-blue-600 uppercase tracking-wide mb-3 drop-shadow-[1px_1px_4px_white]">
+        Revive ..Rebuild ..Rejoice your memories !
+      </h2>
+      <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row text-black bg-yellow-400 p-2 rounded-lg">
+        {shoppingViewHeaderMenuItems.map((menuItem) => (
+          <Link
+            className="text-lg font-semibold text-gray-900 transition-colors duration-300 hover:text-white hover:bg-red-500 px-4 py-2 rounded-md"
+            key={menuItem.id}
+            to={menuItem.path}
+          >
+            {menuItem.label}
+          </Link>
+        ))}
+      </nav>
+    </div>
   );
 }
 
@@ -64,7 +69,7 @@ function HeaderRightContent() {
       <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
         <Button
           onClick={() => setOpenCartSheet(true)}
-          className="bg-yellow-500 hover:bg-yellow-400 cursor-pointer text-white hover:text-white"
+          className="bg-yellow-500 hover:bg-yellow-400 text-white"
           variant="outline"
           size="icon"
         >
@@ -90,23 +95,20 @@ function HeaderRightContent() {
             <DropdownMenuLabel>Logged in as {user.userName}</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => navigate("/shop/account")}>
-              <UserCog className="mr-2 h-4 w-4" />
-              Account
+              <UserCog className="mr-2 h-4 w-4" /> Account
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout}>
-              <LogOut className="mr-2 h-4 w-4" />
-              Logout
+              <LogOut className="mr-2 h-4 w-4" /> Logout
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       ) : (
         <Button
           onClick={() => navigate("/auth/login")}
-          className="bg-red-600 hover:bg-red-500 text-white cursor-pointer"
+          className="bg-red-600 hover:bg-red-500 text-white"
         >
-          <LogIn className="mr-2 h-5 w-5" />
-          Login
+          <LogIn className="mr-2 h-5 w-5" /> Login
         </Button>
       )}
     </div>
@@ -115,9 +117,8 @@ function HeaderRightContent() {
 
 const ShoppingHeader = () => {
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-yellow-500 shadow-md dark:bg-yellow-700 transition-colors">
+    <header className="sticky top-0 z-40 w-full border-b bg-yellow-500 shadow-md transition-colors">
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
-        {/* Left: Mobile Menu Button (Visible on Small Screens) */}
         <Sheet>
           <SheetTrigger asChild>
             <Button
@@ -138,16 +139,10 @@ const ShoppingHeader = () => {
           </SheetContent>
         </Sheet>
 
-        {/* Center: Logo / Branding */}
         <div className="flex-1 flex justify-center">
           <Link
             to="/shop/home"
             className="text-2xl md:text-3xl font-extrabold hover:text-red-700 transition duration-300"
-            style={{
-              fontFamily: "Baguet Script",
-              fontWeight: "bold",
-              fontStyle: "italic",
-            }}
             aria-label="Go to homepage"
           >
             <img
@@ -155,11 +150,9 @@ const ShoppingHeader = () => {
               alt="Vite Logo"
               className="h-32 w-45 inline-block mr-2"
             />
-            <span className="font-bold"></span>
           </Link>
         </div>
 
-        {/* Right: Desktop Navigation (Hidden on Mobile) */}
         <div className="hidden lg:flex lg:items-center lg:space-x-6">
           <MenuItems />
           <HeaderRightContent />
