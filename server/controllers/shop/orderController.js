@@ -1,7 +1,11 @@
 const stripe = require("../../config/stripe");
+const mongoose = require("mongoose");
 const Order = require("../../models/Order");
 const Cart = require("../../models/Cart");
 const Product = require("../../models/Product");
+
+const FRONTEND_URL = import.meta.env.VITE_API_URL || "http://localhost:5173";
+const CURRENCY = "INR";
 
 const createOrder = async (req, res) => {
   try {
@@ -18,6 +22,26 @@ const createOrder = async (req, res) => {
       cartId,
     } = req.body;
 
+    if (!cartItems || cartItems.length === 0) {
+      return res.status(400).json({ success: false, message: "Cart is empty" });
+    }
+
+    if (!userId || !cartId) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Invalid user or cart ID" });
+    }
+
+    for (let item of cartItems) {
+      let product = await Product.findById(item.productId);
+      if (!product || product.totalStock < item.quantity) {
+        return res.status(400).json({
+          success: false,
+          message: `Not enough stock for ${item.title}`,
+        });
+      }
+    }
+
     const newlyCreatedOrder = new Order({
       userId,
       cartId,
@@ -25,7 +49,7 @@ const createOrder = async (req, res) => {
       addressInfo,
       orderStatus,
       paymentMethod,
-      paymentStatus, 
+      paymentStatus,
       totalAmount,
       orderDate,
       orderUpdateDate,
@@ -33,20 +57,28 @@ const createOrder = async (req, res) => {
 
     await newlyCreatedOrder.save();
 
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      line_items: cartItems.map((item) => ({
-        price_data: {
-          currency: "INR",
-          product_data: { name: item.title },
-          unit_amount: Math.round(item.price * 100), 
-        },
-        quantity: item.quantity,
-      })),
-      mode: "payment",
-      success_url: `http://localhost:5173/shop/stripe-return`,
-      cancel_url: "http://localhost:5173/shop/stripe-cancel",
-    });
+    let session;
+    try {
+      session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
+        line_items: cartItems.map((item) => ({
+          price_data: {
+            currency: CURRENCY,
+            product_data: { name: item.title },
+            unit_amount: Math.round(item.price * 100),
+          },
+          quantity: item.quantity,
+        })),
+        mode: "payment",
+        success_url: `${FRONTEND_URL}/shop/stripe-return`,
+        cancel_url: `${FRONTEND_URL}/shop/stripe-cancel`,
+      });
+    } catch (error) {
+      console.error("Stripe Error:", error);
+      return res
+        .status(500)
+        .json({ success: false, message: "Stripe session creation failed" });
+    }
 
     res.status(201).json({
       success: true,
@@ -55,44 +87,53 @@ const createOrder = async (req, res) => {
     });
   } catch (e) {
     console.error(e);
-    res.status(500).json({ success: false, message: "Error while creating Stripe payment" });
+    res
+      .status(500)
+      .json({ success: false, message: "Error while creating Stripe payment" });
   }
 };
 
 const capturePayment = async (req, res) => {
+  const session = await mongoose.startSession();
+  session.startTransaction();
   try {
     const { orderId, paymentIntentId } = req.body;
 
-    let order = await Order.findById(orderId);
+    const order = await Order.findById(orderId).session(session);
     if (!order) {
-      return res.status(404).json({ success: false, message: "Order not found" });
+      throw new Error("Order not found");
     }
 
     const paymentIntent = await stripe.paymentIntents.retrieve(paymentIntentId);
     if (paymentIntent.status !== "succeeded") {
-      return res.status(400).json({ success: false, message: "Payment not completed" });
+      throw new Error("Payment not completed");
     }
 
     order.paymentStatus = "paid";
     order.orderStatus = "confirmed";
     order.paymentId = paymentIntentId;
+    await order.save({ session });
 
     for (let item of order.cartItems) {
-      let product = await Product.findById(item.productId);
+      const product = await Product.findById(item.productId).session(session);
       if (!product || product.totalStock < item.quantity) {
-        return res.status(400).json({ success: false, message: `Not enough stock for ${item.title}` });
+        throw new Error(`Not enough stock for ${item.title}`);
       }
       product.totalStock -= item.quantity;
-      await product.save();
+      await product.save({ session });
     }
 
-    await Cart.findByIdAndDelete(order.cartId);
-    await order.save();
+    await Cart.findByIdAndDelete(order.cartId, { session });
+    await session.commitTransaction();
+    session.endSession();
 
-    res.status(200).json({ success: true, message: "Order confirmed", data: order });
-  } catch (e) {
-    console.error(e);
-    res.status(500).json({ success: false, message: "Error capturing payment" });
+    res
+      .status(200)
+      .json({ success: true, message: "Order confirmed", data: order });
+  } catch (error) {
+    await session.abortTransaction();
+    session.endSession();
+    res.status(500).json({ success: false, message: error.message });
   }
 };
 
@@ -102,7 +143,9 @@ const getAllOrdersByUser = async (req, res) => {
     const orders = await Order.find({ userId });
 
     if (!orders.length) {
-      return res.status(404).json({ success: false, message: "No orders found!" });
+      return res
+        .status(404)
+        .json({ success: false, message: "No orders found!" });
     }
 
     res.status(200).json({ success: true, data: orders });
@@ -118,13 +161,17 @@ const getOrderDetails = async (req, res) => {
     const order = await Order.findById(id);
 
     if (!order) {
-      return res.status(404).json({ success: false, message: "Order not found!" });
+      return res
+        .status(404)
+        .json({ success: false, message: "Order not found!" });
     }
 
     res.status(200).json({ success: true, data: order });
   } catch (e) {
     console.error(e);
-    res.status(500).json({ success: false, message: "Error fetching order details" });
+    res
+      .status(500)
+      .json({ success: false, message: "Error fetching order details" });
   }
 };
 
