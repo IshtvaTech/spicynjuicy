@@ -75,6 +75,8 @@ const createOrder = async (req, res) => {
       });
     } catch (error) {
       console.error("Stripe Error:", error);
+      console.error("Stripe Error:", error.message, error);
+
       return res
         .status(500)
         .json({ success: false, message: "Stripe session creation failed" });
