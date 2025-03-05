@@ -1,25 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
-import CommonForm from '../common/form';
-import { addressFormControls } from '@/config';
-import { useDispatch, useSelector } from 'react-redux';
-import { addNewAddress, deleteAddress, editaAddress, fetchAllAddresses } from '@/store/shop/address-slice';
-import AddressCard from './addressCard';
+import React, { useEffect, useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import CommonForm from "../common/form";
+import { addressFormControls } from "@/config";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addNewAddress,
+  deleteAddress,
+  editAddress,
+  fetchAllAddresses,
+} from "@/store/shop/address-slice";
+import AddressCard from "./addressCard";
 
 const initialAddressFormData = {
-  address: '',
-  city: '',
-  phone: '',
-  pincode: '',
-  notes: '',
+  address: "",
+  city: "",
+  phone: "",
+  pincode: "",
+  notes: "",
 };
 
 const Address = ({ setCurrentSelectedAddress }) => {
   const [formData, setFormData] = useState(initialAddressFormData);
   const [currentEditedId, setCurrentEditedId] = useState(null);
   const dispatch = useDispatch();
-  const { user } = useSelector(state => state.auth);
-  const { addressList } = useSelector(state => state.shopAddress);
+  const { user } = useSelector((state) => state.auth);
+  const { addressList } = useSelector((state) => state.shopAddress);
 
   useEffect(() => {
     if (user?.id) dispatch(fetchAllAddresses(user?.id));
@@ -29,10 +34,10 @@ const Address = ({ setCurrentSelectedAddress }) => {
     event.preventDefault();
 
     const action = currentEditedId
-      ? editaAddress({ userId: user?.id, addressId: currentEditedId, formData })
+      ? editAddress({ userId: user?.id, addressId: currentEditedId, formData })
       : addNewAddress({ ...formData, userId: user?.id });
 
-    dispatch(action).then(data => {
+    dispatch(action).then((data) => {
       if (data?.payload?.success) {
         dispatch(fetchAllAddresses(user?.id));
         setCurrentEditedId(null);
@@ -42,7 +47,9 @@ const Address = ({ setCurrentSelectedAddress }) => {
   }
 
   function handleDeleteAddress(getCurrentAddress) {
-    dispatch(deleteAddress({ userId: user?.id, addressId: getCurrentAddress._id })).then(data => {
+    dispatch(
+      deleteAddress({ userId: user?.id, addressId: getCurrentAddress._id })
+    ).then((data) => {
       if (data?.payload?.success) dispatch(fetchAllAddresses(user?.id));
     });
   }
@@ -50,11 +57,11 @@ const Address = ({ setCurrentSelectedAddress }) => {
   function handleEditAddress(getCurrentAddress) {
     setCurrentEditedId(getCurrentAddress?._id);
     setFormData({
-      address: getCurrentAddress?.address || '',
-      city: getCurrentAddress?.city || '',
-      phone: getCurrentAddress?.phone || '',
-      pincode: getCurrentAddress?.pincode || '',
-      notes: getCurrentAddress?.notes || '',
+      address: getCurrentAddress?.address || "",
+      city: getCurrentAddress?.city || "",
+      phone: getCurrentAddress?.phone || "",
+      pincode: getCurrentAddress?.pincode || "",
+      notes: getCurrentAddress?.notes || "",
     });
   }
 
@@ -62,8 +69,8 @@ const Address = ({ setCurrentSelectedAddress }) => {
     <Card>
       <div className="mb-5 p-3 grid grid-cols-1 sm:grid-cols-2 gap-2">
         {addressList?.length > 0 &&
-          addressList.map(singleAddressItem => (
-            <AddressCard 
+          addressList.map((singleAddressItem) => (
+            <AddressCard
               key={singleAddressItem._id}
               addressInfo={singleAddressItem}
               handleDeleteAddress={handleDeleteAddress}
@@ -73,16 +80,20 @@ const Address = ({ setCurrentSelectedAddress }) => {
           ))}
       </div>
       <CardHeader>
-        <CardTitle>{currentEditedId ? 'Edit Address' : 'Add New Address'}</CardTitle>
+        <CardTitle>
+          {currentEditedId ? "Edit Address" : "Add New Address"}
+        </CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
         <CommonForm
           formControls={addressFormControls}
           formData={formData}
           setFormData={setFormData}
-          buttonText={currentEditedId ? 'Edit' : 'Add'}
+          buttonText={currentEditedId ? "Edit" : "Add"}
           onSubmit={handleManageAddress}
-          isBtnDisabled={!Object.values(formData).every(value => value.trim() !== '')}
+          isBtnDisabled={
+            !Object.values(formData).every((value) => value.trim() !== "")
+          }
         />
       </CardContent>
     </Card>
