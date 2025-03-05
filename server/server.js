@@ -14,7 +14,10 @@ const shopReviewRouter = require("./routes/shop/reviewRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
-
+const allowedOrigins = [
+  "http://localhost:5173", // For local development
+  "https://spicynjuicy.onrender.com", // Your deployed frontend
+];
 connectDB();
 
 app.use(
@@ -34,6 +37,9 @@ app.use(
 
 app.use(cookieParser());
 app.use(express.json());
+console.log(
+  `Cors origin: ${process.env.CORS_ORIGIN || "http://localhost:5173"}`
+); // Will log PORT from env or fallback to 5100 if not defined
 
 app.use("/api/auth", authRouter);
 app.use("/api/admin/products", adminProductsRouter);
