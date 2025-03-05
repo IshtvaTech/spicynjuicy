@@ -2,10 +2,10 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
 // Get API URL from environment variables
-const API_URL = process.env.REACT_APP_API_URL || "http://localhost:5100";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5100";
 
 // Log warning if environment variable is missing
-if (!process.env.REACT_APP_API_URL) {
+if (!import.meta.env.VITE_API_URL) {
   console.warn(
     "%c[WARNING] REACT_APP_API_URL is not set! Falling back to http://localhost:5100",
     "color: orange; font-weight: bold;"

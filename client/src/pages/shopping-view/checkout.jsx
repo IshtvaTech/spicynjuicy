@@ -35,7 +35,7 @@ const ShoppingCheckout = () => {
 
     const orderData = {
       userId: user?.id,
-      cartId:cartItems?._id,
+      cartId: cartItems?._id,
       cartItems: cartItems.items.map((singleCartItem) => ({
         productId: singleCartItem?.productId,
         title: singleCartItem?.title,
@@ -57,7 +57,7 @@ const ShoppingCheckout = () => {
       totalAmount: totalCartAmount,
       orderDate: new Date(),
       orderUpdateDate: new Date(),
-      cartId: "",
+      //cartId: "",
     };
 
     dispatch(createNewOrder(orderData)).then((data) => {
@@ -71,8 +71,8 @@ const ShoppingCheckout = () => {
     });
   }
 
-  if(checkoutURL){
-    window.location.href=checkoutURL;
+  if (checkoutURL) {
+    window.location.href = checkoutURL;
   }
 
   return (
