@@ -57,7 +57,7 @@ const ShoppingCheckout = () => {
       totalAmount: totalCartAmount,
       orderDate: new Date(),
       orderUpdateDate: new Date(),
-      //cartId: "",
+      cartId: "",
     };
 
     dispatch(createNewOrder(orderData)).then((data) => {
