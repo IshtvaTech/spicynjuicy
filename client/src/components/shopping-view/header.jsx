@@ -27,10 +27,10 @@ import { fetchCartItems } from "@/store/shop/cart-slice";
 
 function MenuItems() {
   return (
-    <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row text-white">
+    <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row text-white ">
       {shoppingViewHeaderMenuItems.map((menuItem) => (
         <Link
-          className="text-lg text-white transition-colors duration-300 hover:text-red-600"
+          className="text-xl text-white transition-colors duration-300 hover:text-red-600 mr-2 "
           key={menuItem.id}
           to={menuItem.path}
         >
@@ -60,15 +60,15 @@ function HeaderRightContent() {
   }
 
   return (
-    <div className="flex lg:items-center lg:flex-row flex-col gap-4">
+    <div className="flex lg:items-center lg:flex-row flex-col gap-2  ">
       <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
         <Button
           onClick={() => setOpenCartSheet(true)}
-          className="bg-yellow-500 hover:bg-yellow-400 cursor-pointer text-white hover:text-white"
+          className="bg-yellow-500 hover:bg-yellow-400 cursor-pointer text-white hover:text-white mr-1 "
           variant="outline"
           size="icon"
         >
-          <ShoppingCart className="w-6 h-6" />
+          <ShoppingCart className="w-6 h-6  " />
           <span className="sr-only">User cart</span>
         </Button>
         <UserCartWrapper
@@ -81,7 +81,7 @@ function HeaderRightContent() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Avatar className="bg-red-600">
-              <AvatarFallback className="bg-red-600 text-white font-extrabold">
+              <AvatarFallback className="bg-red-600 text-white ">
                 {user.userName[0]?.toUpperCase()}
               </AvatarFallback>
             </Avatar>
@@ -139,7 +139,7 @@ const ShoppingHeader = () => {
         </Sheet>
 
         {/* Center: Logo / Branding */}
-        <div className="flex-1 flex justify-center">
+        <div className=" flex items-center gap-2">
           <Link
             to="/shop/home"
             className="text-2xl md:text-3xl font-extrabold hover:text-red-700 transition duration-300"
@@ -154,7 +154,7 @@ const ShoppingHeader = () => {
             <img
               src="/vite.png"
               alt="Vite Logo"
-              className="h-32 w-45 inline-block mr-2"
+              className="h-32 w-45 inline-block "
             />
             <span className="font-bold"></span>
           </Link>
